@@ -51,7 +51,6 @@ const MainSection = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/leaderboards" element={<Leaderboards />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/tes" element={<PracticePage />} />
             <Route path="/lessons">
               <Route index element={<Lessons />} />
               <Route path=":slug/:unit" element={<VideoLessonPage />} />

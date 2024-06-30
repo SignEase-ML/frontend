@@ -3,37 +3,32 @@ import { Navigate } from 'react-router-dom'
 import Auth from '../utils/auth'
 import { Button } from '../components'
 
-// Dummy data for the lessons
+// Dummy data for the lessons with YouTube videos
 const lessons = [
   {
     id: 1,
-    title: 'Introduction to React',
+    title: 'ASL Alphabet Overview',
     description:
-      'In this lesson, we will cover the basics of React, a popular JavaScript library for building user interfaces.',
-    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', // Sample video URL
+      'Learn the American Sign Language (ASL) alphabet and its importance in communication.',
+    videoUrl: 'https://www.youtube.com/embed/DBQINq0SsAw',
     keyPoints: [
-      'Understanding the Virtual DOM',
-      'Creating React components',
-      'Using JSX syntax',
-      'Managing state and props',
-      'Handling events',
+      'Mastering hand shapes for each letter',
+      'Practice sessions for learning ASL alphabet',
+      'Understanding fingerspelling and its applications',
     ],
   },
   {
     id: 2,
-    title: 'State and Props in React',
+    title: 'Fingerspelling Techniques',
     description:
-      'In this lesson, we will delve deeper into managing state and props in React components.',
-    videoUrl: 'https://www.w3schools.com/html/movie.mp4', // Sample video URL
+      'Explore advanced techniques and tips for efficient fingerspelling in ASL.',
+    videoUrl: 'https://www.youtube.com/embed/CGqXy3JOZRs',
     keyPoints: [
-      'Using useState hook',
-      'Passing props to child components',
-      'State management patterns',
-      'Lifting state up',
-      'Using context for state management',
+      'Speed and accuracy in fingerspelling',
+      'Common mistakes to avoid in fingerspelling',
+      'Practical exercises to improve fingerspelling skills',
     ],
   },
-  // Add more lessons as needed
 ]
 
 const VideoLessonPage = () => {
@@ -69,10 +64,15 @@ const VideoLessonPage = () => {
 
       {/* Video Player */}
       <div className="mb-8">
-        <video className="w-full rounded-lg" controls onEnded={handleVideoEnd}>
-          <source src={currentLesson.videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <iframe
+          className="w-full rounded-lg h-64 md:h-96"
+          src={currentLesson.videoUrl}
+          title={currentLesson.title}
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
       </div>
 
       {/* Lesson Description */}

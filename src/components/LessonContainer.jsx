@@ -8,25 +8,22 @@ const LessonContainer = ({ lesson }) => {
         {/* Header */}
         <div className="mb-4">
           <p className="font-bold opacity-80 uppercase tracking-wider text-shadow">
-            Lesson {lesson.lessonNumber}
+            Lesson {lesson.number}
           </p>
           <h4 className="font-bold text-2xl sm:text-3xl md:text-4xl text-shadow">
-            {lesson.lessonTitle}
+            {lesson.title}
           </h4>
-          <p className="font-bold opacity-80 tracking-wider text-shadow">
-            {lesson.lessonPages}
-          </p>
         </div>
 
         {/* Content */}
         <ul className="sm:text-xl flex flex-col gap-2">
-          {lesson.lessonUnits.map((unit) => (
-            <li key={unit.unitUrl}>
+          {lesson.units.map((unit) => (
+            <li key={unit.slug}>
               <Link
-                to={`/lessons/${lesson.lessonUrl}/${unit.unitUrl}`}
+                to={`/lessons/${lesson.slug}/${unit.slug}`}
                 className="exercise-style"
               >
-                {unit.unitTitle}
+                {unit.title}
               </Link>
             </li>
           ))}
