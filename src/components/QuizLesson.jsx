@@ -12,22 +12,22 @@ const QuizLesson = ({ data }) => {
         <div className="text-gray-100">
           {/* Lesson Number and Pages*/}
           <p className="font-bold opacity-80 uppercase tracking-wider text-shadow">
-            Lesson {data.lessonNumber}
+            Quiz {data.lessonNumber} - {data.lessonTitle}
           </p>
           <div className="flex flex-col sm:flex-row justify-between">
             {/* Subject Title */}
             <div>
               <h4 className="font-bold text-2xl sm:text-3xl md:text-4xl text-shadow">
-                {data.title}
+                {data.lessonTitle}
               </h4>
               <p className="font-bold opacity-80 tracking-wider text-shadow">
-                {data.lessonPages}
+                {`Total Questions: ${data.signs.length}`}
               </p>
             </div>
             <div className="flex items-end mt-4 sm:mt-0 gap-4 font-bold">
               {/* Start Quiz Button */}
               <Link
-                to={`/quiz/start/${data.url}`}
+                to={`/quiz/start/${data.slug}`}
                 className="w-full h-fit sm:w-32 p-2 sm:px-4 border-2 border-white bg-white hover:bg-gray-200 hover:border-gray-200 text-gray-800 rounded-xl flex items-center justify-center"
               >
                 Start Quiz

@@ -12,7 +12,7 @@ const PracticeLesson = ({ data }) => {
         <div className="text-gray-100">
           {/* Lesson Number and Pages */}
           <p className="font-bold opacity-80 uppercase tracking-wider text-shadow">
-            ASL Practice {data.lessonNumber}
+            ASL Practice {data.lessonNumber} - {data.lessonTitle}
           </p>
           <div className="flex flex-col sm:flex-row justify-between">
             {/* Subject Title */}
@@ -21,13 +21,13 @@ const PracticeLesson = ({ data }) => {
                 {data.title}
               </h4>
               <p className="font-bold opacity-80 tracking-wider text-shadow">
-                {data.lessonPages}
+                {`Total Questions: ${data.signs.length}`}
               </p>
             </div>
             <div className="flex items-end mt-4 sm:mt-0 gap-4 font-bold">
               {/* Start Practice Button */}
               <Link
-                to={`/practice/start/${data.url}`}
+                to={`/practice/${data.lessonSlug}/${data.slug}`}
                 className="w-full h-fit sm:w-32 p-2 sm:px-4 border-2 border-white bg-white hover:bg-gray-200 hover:border-gray-200 text-gray-800 rounded-xl flex items-center justify-center"
               >
                 Start Practice
