@@ -18,7 +18,6 @@ import Auth from '../utils/auth'
 import VideoLessonPage from '../pages/VideoPage'
 import PracticePage from '../pages/PracticePage'
 import PracticeList from '../pages/PracticeList'
-
 const MainSection = () => {
   const loggedIn = Auth.loggedIn()
   // returns true if locations includes /quiz

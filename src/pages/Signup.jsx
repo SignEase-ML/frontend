@@ -1,14 +1,17 @@
 import { useState, useRef } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import logo from '../assets/Logo.svg'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { FaExclamationCircle } from 'react-icons/fa'
 import { AiOutlineLoading } from 'react-icons/ai'
-
+import Auth from '../utils/auth' // import the Auth utility function
+import authService from '../services/auth.service'
+import { toast } from 'react-toastify'
 const Signup = () => {
+  if (Auth.loggedIn()) return <Navigate to="/lessons" />
   const [showPassword, setShowPassword] = useState(false) // state for toggling password visibility
-  const [errorMessage, setErrorMessage] = useState('') // state for displaying error message
-
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
   const formRef = useRef(null) // reference to the form element
 
   const handleSubmit = async (event) => {
@@ -16,8 +19,22 @@ const Signup = () => {
 
     const formData = new FormData(formRef.current)
     const inputData = Object.fromEntries(formData.entries())
-
-    // This is where the form submission logic would go
+    setIsLoading(true)
+    await authService
+      .register(inputData)
+      .then((response) => {
+        toast.success('Register success, please verify your email', {
+          position: 'top-right',
+        })
+        formRef.current.reset()
+        navigate('/login')
+      })
+      .catch((error) => {
+        toast.error(error, {
+          position: 'top-right',
+        })
+      })
+    setIsLoading(false)
   }
 
   return (
@@ -39,6 +56,20 @@ const Signup = () => {
         <h1 className="text-2xl font-bold mb-6 text-center">Sign up</h1>
         {/* Fields Container */}
         <div className="w-full flex flex-col gap-4">
+          {/* Name Field Wrapper*/}
+          <div className="flex flex-col gap-1">
+            <label className="font-bold" htmlFor="name">
+              Name
+            </label>
+            <input
+              className="form-input-style px-3 py-2"
+              type="text"
+              id="name"
+              name="name"
+              required
+            />
+          </div>
+
           {/* Username Field Wrapper*/}
           <div className="flex flex-col gap-1">
             <label className="font-bold" htmlFor="username">
@@ -91,20 +122,16 @@ const Signup = () => {
           </div>
         </div>
 
-        {/* Error Message */}
-        {errorMessage && (
-          <p className="text-red-500 mt-6 inline-flex items-center text-sm sm:text-base">
-            <FaExclamationCircle className="mr-1" />
-            {errorMessage}
-          </p>
-        )}
-
         {/* Submit Button */}
         <button
           className="w-full mt-6 py-3 px-6 bg-primary hover:bg-primary-shade text-white font-bold rounded-xl"
           type="submit"
         >
-          Create account
+          {isLoading ? (
+            <AiOutlineLoading className="animate-spin h-6 w-6 mx-auto" />
+          ) : (
+            'Create account'
+          )}
         </button>
         {/* Login Link */}
         <p className="mt-6 text-gray-500 dark:text-gray-400 text-center">
