@@ -1,15 +1,19 @@
 import { useState, useRef } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import logo from '../assets/Logo.svg'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { FaExclamationCircle } from 'react-icons/fa'
 import { AiOutlineLoading } from 'react-icons/ai'
+import Auth from '../utils/auth' // import the Auth utility function
+import authService from '../services/auth.service'
+import { toast } from 'react-toastify'
 
 const Login = () => {
+  if (Auth.loggedIn()) return <Navigate to="/lessons" />
   const [showPassword, setShowPassword] = useState(false) // state for toggling password visibility
-  const [errorMessage, setErrorMessage] = useState('') // state for displaying error message
-
   const formRef = useRef(null) // reference to the form element
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -17,7 +21,21 @@ const Login = () => {
     const formData = new FormData(formRef.current)
     const inputData = Object.fromEntries(formData.entries())
 
-    // This is where the form submission logic would go
+    setIsLoading(true)
+    await authService
+      .login(inputData)
+      .then((response) => {
+        formRef.current.reset()
+        // takes the token and sets it to localStorage
+        Auth.login(response.data.access_token)
+        navigate('/')
+      })
+      .catch((error) => {
+        toast.error(error, {
+          position: 'top-right',
+        })
+      })
+    setIsLoading(false)
   }
 
   return (
@@ -78,20 +96,16 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Error Message */}
-        {errorMessage && (
-          <p className="text-red-500 mt-6 inline-flex items-center text-sm sm:text-base">
-            <FaExclamationCircle className="mr-1" />
-            {errorMessage}
-          </p>
-        )}
-
         {/* Submit Button */}
         <button
           className="w-full mt-6 py-3 px-6 bg-primary hover:bg-primary-shade text-white font-bold rounded-xl"
           type="submit"
         >
-          Log in
+          {isLoading ? (
+            <AiOutlineLoading className="animate-spin h-6 w-6 mx-auto" />
+          ) : (
+            'Login'
+          )}
         </button>
         {/* Sign Up Link */}
         <p className="mt-6 text-gray-500 dark:text-gray-400 text-center">

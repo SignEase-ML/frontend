@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import signLanguageLogo from '../assets/SignLanguageLogo.png'
 import Auth from '../utils/auth'
 
 const Home = () => {
-  // if (Auth.loggedIn()) return <Navigate to="/lessons" />
+  if (Auth.loggedIn()) return <Navigate to="/lessons" />
 
   return (
     // Hero Section with Logo and Call to Action
