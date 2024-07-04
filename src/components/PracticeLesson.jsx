@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const PracticeLesson = ({ data }) => {
   const [displayTable, setDisplayTable] = useState(false)
-  console.log('ini data', data)
+
   return (
     // ASL Practice Lesson Container
     <div className={`banner-container-style ${data.backgroundColor}`}>
