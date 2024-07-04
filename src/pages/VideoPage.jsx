@@ -18,7 +18,7 @@ const VideoLessonPage = () => {
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0)
   const [videoEnded, setVideoEnded] = useState(false)
 
-  const currentLesson = listLesson[currentLessonIndex]
+  const currentLesson = listLesson ? listLesson[currentLessonIndex] : null
 
   const handleVideoEnd = () => {
     setVideoEnded(true)
@@ -45,7 +45,12 @@ const VideoLessonPage = () => {
           <Loading />
         </section>
       )}
-      {!isFetchingLesson && (
+      {!isFetchingLesson && !currentLesson && (
+        <section className="w-full min-h-screen p-4 md:p-8 flex justify-center items-center">
+          <h1 className="text-2xl font-bold">No lessons found.</h1>
+        </section>
+      )}
+      {!isFetchingLesson && currentLesson && (
         <section className="w-full min-h-screen p-4 md:p-8">
           {/* Page Heading */}
           <h1 className="h1-style mb-8">{currentLesson.title}</h1>
