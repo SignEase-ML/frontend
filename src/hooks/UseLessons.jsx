@@ -5,6 +5,7 @@ export function useLesson() {
   return useQuery({
     queryKey: ['lessons'],
     initialData: [],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const res = await ApiClient.get(`/lesson`)
       const data = res.data.data
