@@ -8,7 +8,6 @@ const Lessons = () => {
   // If the user is not logged in, redirect to the login page
   if (!Auth.loggedIn()) return <Navigate to="/login" />
   const user = Auth.getUser()
-  console.log(user)
   const {
     data: listLesson,
     error: errorLesson,
