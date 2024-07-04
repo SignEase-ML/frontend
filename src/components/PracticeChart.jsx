@@ -125,10 +125,9 @@ const PracticeChart = () => {
         </section>
       )}
       {!isFetchingPractice && listPractice && (
-        <section className="w-full min-h-screen p-4 md:p-8">
+        <section className="w-full min-h-screen ">
           {listPractice.map((lesson) => (
             <PracticeLesson key={lesson.id} data={lesson} />
-            // <p></p>
           ))}
         </section>
       )}
