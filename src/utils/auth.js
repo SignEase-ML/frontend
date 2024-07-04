@@ -35,17 +35,20 @@ class AuthService {
     return localStorage.getItem('id_token')
   }
 
+  getUser() {
+    const user = localStorage.getItem('user')
+    return user ? JSON.parse(user) : null
+  }
+
   login(idToken) {
     // saves token to localStorage
     localStorage.setItem('id_token', idToken)
-
-    // redirect user to lessons
-    window.location.assign('/lessons')
   }
 
   logout() {
     // clear token from localStorage
     localStorage.removeItem('id_token')
+    localStorage.removeItem('user')
     // this will reload the page and reset the state of the application
     window.location.assign('/')
   }

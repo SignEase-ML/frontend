@@ -7,14 +7,14 @@ import Loading from '../components/loading'
 const Lessons = () => {
   // If the user is not logged in, redirect to the login page
   if (!Auth.loggedIn()) return <Navigate to="/login" />
+  const user = Auth.getUser()
+  console.log(user)
   const {
     data: listLesson,
     error: errorLesson,
     isFetching: isFetchingLesson,
     refetch: refetchLesson,
   } = useLesson()
-  // Dummy user data for UI purposes
-  const user = { username: 'SampleUser' }
 
   return (
     <section id="lessons" className="w-full min-h-screen p-4 md:p-8">

@@ -26,12 +26,20 @@ const Login = () => {
       .login(inputData)
       .then((response) => {
         formRef.current.reset()
-        // takes the token and sets it to localStorage
-        Auth.login(response.data.access_token)
+
+        // Extract token and user data from the response
+        const { access_token, user } = response.data
+
+        // Store token and user data in localStorage
+        localStorage.setItem('user', JSON.stringify(user))
+        // Perform login
+        Auth.login(access_token)
+
+        // Navigate to home
         navigate('/')
       })
       .catch((error) => {
-        toast.error(error, {
+        toast.error(error.message || 'Login failed', {
           position: 'top-right',
         })
       })
