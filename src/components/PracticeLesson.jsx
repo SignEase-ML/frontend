@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const PracticeLesson = ({ data }) => {
   const [displayTable, setDisplayTable] = useState(false)
-
+  console.log('ini data', data)
   return (
     // ASL Practice Lesson Container
     <div className={`banner-container-style ${data.backgroundColor}`}>
@@ -12,7 +12,7 @@ const PracticeLesson = ({ data }) => {
         <div className="text-gray-100">
           {/* Lesson Number and Pages */}
           <p className="font-bold opacity-80 uppercase tracking-wider text-shadow">
-            ASL Practice {data.lessonNumber} - {data.lessonTitle}
+            ASL Practice {data.lesson.number} - {data.lesson.title}
           </p>
           <div className="flex flex-col sm:flex-row justify-between">
             {/* Subject Title */}
@@ -27,7 +27,7 @@ const PracticeLesson = ({ data }) => {
             <div className="flex items-end mt-4 sm:mt-0 gap-4 font-bold">
               {/* Start Practice Button */}
               <Link
-                to={`/practice/${data.lessonSlug}/${data.slug}`}
+                to={`/practice/${data.lesson.slug}/${data.slug}`}
                 className="w-full h-fit sm:w-32 p-2 sm:px-4 border-2 border-white bg-white hover:bg-gray-200 hover:border-gray-200 text-gray-800 rounded-xl flex items-center justify-center"
               >
                 Start Practice
@@ -56,19 +56,19 @@ const PracticeLesson = ({ data }) => {
             </thead>
             <tbody>
               {data.signs.map((sign) => (
-                <tr key={`id-${sign.word}`}>
+                <tr key={`id-${sign.label}`}>
                   <td className="w-fit border-2 dark:border-gray-700 p-2 sm:p-4 text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-center scale-150 md:scale-100">
                     <img
                       src={sign.image}
-                      alt={sign.word}
+                      alt={sign.label}
                       className="w-20 h-20"
                     />
                   </td>
                   <td className="w-1/2 border-2 dark:border-gray-700 p-2 sm:p-4 text-xl sm:text-2xl md:text-3xl">
-                    {sign.word}
+                    {sign.label}
                   </td>
                   <td className="w-1/2 border-2 dark:border-gray-700 p-2 sm:p-4 md:text-xl">
-                    {sign.meaning}
+                    {sign.description}
                   </td>
                 </tr>
               ))}

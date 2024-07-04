@@ -1,5 +1,7 @@
 import React from 'react'
 import PracticeLesson from './PracticeLesson'
+import { usePractice } from '../hooks/UsePractice'
+import Loading from './loading'
 
 const PracticeChart = () => {
   const practiceData = [
@@ -104,15 +106,32 @@ const PracticeChart = () => {
       ],
     },
   ]
+
+  // const { slug, unit } = useParams()
+  const {
+    data: listPractice,
+    error: errorPractice,
+    isFetching: isFetchingPractice,
+    refetch: refetchPractice,
+  } = usePractice()
+  console.log('listPractice', listPractice)
   return (
     <section id="PracticeChart">
       <h3 className="font-bold mb-4 text-xl">Practice Lesson</h3>
       {/* Asl Lessons */}
-      <div className="flex flex-col gap-4">
-        {practiceData.map((lesson) => (
-          <PracticeLesson key={lesson.slug} data={lesson} />
-        ))}
-      </div>
+      {isFetchingPractice && (
+        <section className="w-full min-h-screen p-4 md:p-8 flex justify-center items-center">
+          <Loading />
+        </section>
+      )}
+      {!isFetchingPractice && listPractice && (
+        <section className="w-full min-h-screen p-4 md:p-8">
+          {listPractice.map((lesson) => (
+            <PracticeLesson key={lesson.id} data={lesson} />
+            // <p></p>
+          ))}
+        </section>
+      )}
     </section>
   )
 }
