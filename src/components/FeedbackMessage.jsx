@@ -1,7 +1,7 @@
 import React from 'react'
 import { HiX, HiCheck } from 'react-icons/hi'
 
-const FeedbackMessage = ({ questionState, message }) => {
+const FeedbackMessage = ({ questionState, message, xpPoints }) => {
   return (
     <div
       className={`py-4 md:p-0 flex h-full ${
@@ -33,6 +33,11 @@ const FeedbackMessage = ({ questionState, message }) => {
         >
           {message}
         </p>
+        {questionState === 'correct' && (
+          <p className="text-sm text-gray-600">
+            You earned {xpPoints} XP points!
+          </p>
+        )}
       </div>
     </div>
   )

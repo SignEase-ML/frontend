@@ -7,14 +7,22 @@ import { useCurrentPractice } from '../hooks/UseCurrentPractice'
 import Loading from '../components/loading'
 import auth from '../utils/auth'
 import ApiClient from '../lib/api/ApiClient'
+import { useAudio } from 'react-use'
+import correctSound from '../assets/correct.wav'
+import incorrectSound from '../assets/incorrect.wav'
 
 const PracticePage = () => {
   const [currPracticeIndex, setcurrPracticeIndex] = useState(0)
   const [capturedImage, setCapturedImage] = useState(null)
   const [feedbackStatus, setFeedbackStatus] = useState(null)
   const [feedbackAnswer, setFeedbackAnswer] = useState('')
+  const [xpPoints, setXpPoints] = useState(0)
   const [showFeedbackModal, setShowFeedbackModal] = useState(false)
   const webcamRef = useRef(null)
+  const [correctAudio, _c, correctControls] = useAudio({ src: correctSound })
+  const [incorrectAudio, _i, incorrectControls] = useAudio({
+    src: incorrectSound,
+  })
 
   const { slug, unit } = useParams()
   const {
@@ -44,10 +52,13 @@ const PracticePage = () => {
       },
     })
       .then((res) => {
+        correctControls.play()
+        setXpPoints(res.data.data.point)
         setFeedbackStatus('correct')
         setFeedbackAnswer("Congratulations! You're right.")
       })
       .catch((err) => {
+        incorrectControls.play()
         const result = err.response.data
         setFeedbackStatus('incorrect')
         setFeedbackAnswer(result.message)
@@ -91,6 +102,8 @@ const PracticePage = () => {
 
   return (
     <>
+      {correctAudio}
+      {incorrectAudio}
       {isFetchingPractice && (
         <section className="w-full min-h-screen p-4 md:p-8 flex justify-center items-center">
           <Loading />
@@ -146,6 +159,7 @@ const PracticePage = () => {
                 <FeedbackMessage
                   questionState={feedbackStatus}
                   message={feedbackAnswer}
+                  xpPoints={xpPoints}
                 />
                 <Button
                   type="button"
