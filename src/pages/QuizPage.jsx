@@ -11,6 +11,7 @@ import correctSound from '../assets/correct.wav'
 import incorrectSound from '../assets/incorrect.wav'
 import auth from '../utils/auth'
 import { useCurrentQuiz } from '../hooks/UseCurrentQuiz'
+import ApiClient from '../lib/api/ApiClient'
 
 const QuizPage = () => {
   if (!auth.loggedIn()) return <Navigate to="/login" />
@@ -43,12 +44,28 @@ const QuizPage = () => {
     }
   }, [questionsQuiz])
 
-  const checkAnswer = (answer) => {
-    if (answer === question.answer) {
+  const checkAnswer = async (answer) => {
+    const token = auth.getToken()
+    const payload = {
+      slugQuiz: String(slug),
+      numberQuiz: parseInt(question.number),
+      answer: String(answer),
+    }
+
+    try {
+      const res = await ApiClient.post('/quiz/check-answer', payload, {
+        headers: {
+          'Content-Type': 'application/json', // Use application/json for JSON payloads
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      // Handle success response
       correctControls.play()
       setQuestionState('correct')
       setProgress(((progress + 1) / totalQuestions) * 100)
-    } else {
+    } catch (err) {
+      // Handle error response
       incorrectControls.play()
       setQuestionState('incorrect')
       setProgress(((progress + 1) / totalQuestions) * 100)
@@ -67,13 +84,6 @@ const QuizPage = () => {
       setQuizComplete(true)
       setQuestionState(null)
     }
-  }
-
-  const updateUserExperience = async (experience) => {
-    // Simulating updating user experience
-    console.log('Updating user experience:', experience)
-    setQuizComplete(true)
-    setQuestionState(null)
   }
 
   useEffect(() => {
