@@ -1,9 +1,12 @@
 import React, { useState, useRef } from 'react'
 import Webcam from 'react-webcam'
+import axios from 'axios'
 import { Button, FeedbackMessage } from '../components'
 import { useParams } from 'react-router-dom'
 import { useCurrentPractice } from '../hooks/UseCurrentPractice'
 import Loading from '../components/loading'
+import auth from '../utils/auth'
+import ApiClient from '../lib/api/ApiClient'
 
 const PracticePage = () => {
   const [currPracticeIndex, setcurrPracticeIndex] = useState(0)
@@ -23,19 +26,45 @@ const PracticePage = () => {
 
   const currPractice = practices[currPracticeIndex]
 
-  const captureAndSubmit = () => {
+  const captureAndSubmit = async () => {
     const imageSrc = webcamRef.current.getScreenshot()
     setCapturedImage(imageSrc)
-    // Example: Set feedback status and answer based on some condition
-    if (currPracticeIndex === 0) {
-      setFeedbackStatus('correct')
-      setFeedbackAnswer('The sign for "Hello" is correct!')
-    } else {
-      setFeedbackStatus('incorrect')
-      setFeedbackAnswer('The sign for "Thank you" is incorrect!')
+
+    const formData = new FormData()
+    formData.append('slugPractice', unit)
+    formData.append('numberPractice', currPractice.number)
+    formData.append('file', dataURItoBlob(imageSrc), 'capture.jpg')
+
+    const token = auth.getToken()
+
+    ApiClient.post('/practice/scan', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setFeedbackStatus('correct')
+        setFeedbackAnswer("Congratulations! You're right.")
+      })
+      .catch((err) => {
+        const result = err.response.data
+        setFeedbackStatus('incorrect')
+        setFeedbackAnswer(result.message)
+      })
+
+    setShowFeedbackModal(true)
+  }
+
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1])
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    const ab = new ArrayBuffer(byteString.length)
+    const ia = new Uint8Array(ab)
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i)
     }
-    setShowFeedbackModal(true) // Show feedback modal after capture
-    console.log('Submitted image:', imageSrc)
+    return new Blob([ab], { type: mimeString })
   }
 
   const handleNextGesture = () => {
@@ -116,7 +145,7 @@ const PracticePage = () => {
               <div className="bg-white rounded-lg p-8 max-w-md w-full">
                 <FeedbackMessage
                   questionState={feedbackStatus}
-                  answer={feedbackAnswer}
+                  message={feedbackAnswer}
                 />
                 <Button
                   type="button"
