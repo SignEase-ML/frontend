@@ -4,7 +4,7 @@ import { easeInOut, easeOut, stagger, useAnimate } from 'framer-motion'
 import { runFireworks } from '../utils/confetti'
 import finishSound from '../assets/finish.mp3'
 
-const CompleteScreen = ({ quiz }) => {
+const CompleteScreen = ({ xp, score }) => {
   // This uses the useAnimate hook from Framer Motion to create a new animation scope.
   const [scope, animate] = useAnimate()
 
@@ -42,9 +42,6 @@ const CompleteScreen = ({ quiz }) => {
 
     playAnimations()
   }, [])
-
-  // get score, xp, and formatted time from quiz
-  const { score, xp } = { 10: 10 }
 
   return (
     // This div is the animation scope. It will be used to animate the entire component.

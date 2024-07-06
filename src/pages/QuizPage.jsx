@@ -27,6 +27,8 @@ const QuizPage = () => {
   const [quizComplete, setQuizComplete] = useState(false)
   const [progress, setProgress] = useState(0)
   const [totalQuestions, setTotalQuestions] = useState(0)
+  const [score, setScore] = useState(0)
+  const [xp, setXp] = useState(0)
 
   const { slug } = useParams()
   const {
@@ -60,6 +62,7 @@ const QuizPage = () => {
         },
       })
 
+      const data = res.data.data
       // Handle success response
       correctControls.play()
       setQuestionState('correct')
@@ -72,7 +75,7 @@ const QuizPage = () => {
     }
   }
 
-  const cycleNextQuestion = () => {
+  const cycleNextQuestion = async () => {
     const nextIndex =
       questionsQuiz.findIndex((q) => q.question === question.question) + 1
     if (nextIndex < questionsQuiz.length) {
@@ -81,8 +84,23 @@ const QuizPage = () => {
       setQuestionState(null)
     } else {
       // Last question, complete quiz
-      setQuizComplete(true)
-      setQuestionState(null)
+      const token = auth.getToken()
+      const res = await ApiClient.get(`/quiz/score/${slug}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          const data = res.data.data
+          setXp(data.xp)
+          setScore(data.score)
+          setQuizComplete(true)
+          setQuestionState(null)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 
@@ -186,7 +204,7 @@ const QuizPage = () => {
             </div>
           </div>
         )}
-        {quizComplete && <CompleteScreen />}
+        {quizComplete && <CompleteScreen xp={xp} score={score} />}
         <div
           className={`-mx-4 -mb-6 mt-4 max-md:pb-6 md:m-0 md:h-36 md:min-h-[144px] md:border-t-2 ${
             questionState === 'correct'
