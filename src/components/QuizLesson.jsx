@@ -12,13 +12,13 @@ const QuizLesson = ({ data }) => {
         <div className="text-gray-100">
           {/* Lesson Number and Pages*/}
           <p className="font-bold opacity-80 uppercase tracking-wider text-shadow">
-            Quiz {data.lessonNumber} - {data.lessonTitle}
+            Quiz {data.lesson.number} - {data.lesson.title}
           </p>
           <div className="flex flex-col sm:flex-row justify-between">
             {/* Subject Title */}
             <div>
               <h4 className="font-bold text-2xl sm:text-3xl md:text-4xl text-shadow">
-                {data.lessonTitle}
+                {data.lesson.title}
               </h4>
               <p className="font-bold opacity-80 tracking-wider text-shadow">
                 {`Total Questions: ${data.signs.length}`}
@@ -56,19 +56,19 @@ const QuizLesson = ({ data }) => {
             </thead>
             <tbody>
               {data.signs.map((sign) => (
-                <tr key={`id-${sign.word}`}>
+                <tr key={`id-${sign.label}`}>
                   <td className="w-fit border-2 dark:border-gray-700 p-2 sm:p-4 text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-center scale-150 md:scale-100">
                     <img
                       src={sign.image}
-                      alt={sign.word}
+                      alt={sign.label}
                       className="w-20 h-20"
                     />
                   </td>
                   <td className="w-1/2 border-2 dark:border-gray-700 p-2 sm:p-4 text-xl sm:text-2xl md:text-3xl">
-                    {sign.word}
+                    {sign.label}
                   </td>
                   <td className="w-1/2 border-2 dark:border-gray-700 p-2 sm:p-4 md:text-xl">
-                    {sign.meaning}
+                    {sign.description}
                   </td>
                 </tr>
               ))}
