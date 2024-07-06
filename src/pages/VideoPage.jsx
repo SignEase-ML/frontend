@@ -3,7 +3,7 @@ import { Navigate, useParams } from 'react-router-dom'
 import Auth from '../utils/auth'
 import { Button } from '../components'
 import { useCurrentUnitLesson } from '../hooks/UseCurrentUnitLesson'
-import Loading from '../components/loading'
+import Loading from '../components/Loading'
 
 const VideoLessonPage = () => {
   if (!Auth.loggedIn()) return <Navigate to="/login" />

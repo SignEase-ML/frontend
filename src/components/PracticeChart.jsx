@@ -1,7 +1,7 @@
 import React from 'react'
 import PracticeLesson from './PracticeLesson'
 import { usePractice } from '../hooks/UsePractice'
-import Loading from './loading'
+import Loading from './Loading'
 
 const PracticeChart = () => {
   const {
