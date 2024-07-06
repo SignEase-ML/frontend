@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom'
 import Auth from '../utils/auth'
 import { LessonContainer } from '../components'
 import { useLesson } from '../hooks/UseLessons'
-import Loading from '../components/loading'
+import Loading from '../components/Loading'
 
 const Lessons = () => {
   // If the user is not logged in, redirect to the login page
