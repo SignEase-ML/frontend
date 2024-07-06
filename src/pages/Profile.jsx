@@ -3,12 +3,17 @@ import moment from 'moment'
 import Auth from '../utils/auth'
 import { AiOutlineLoading } from 'react-icons/ai'
 import { useMe } from '../hooks/UseMe'
+import auth from '../utils/auth'
 
 const Profile = () => {
   // If the user is not logged in, redirect to the login page
   if (!Auth.loggedIn()) return <Navigate to="/login" />
 
   const { data, isFetching, refetch: refetchLesson } = useMe()
+
+  if (!isFetching && data) {
+    localStorage.setItem('user', JSON.stringify(data))
+  }
 
   // Check if data is loading
   if (isFetching) {

@@ -5,6 +5,7 @@ export function useMe() {
   return useQuery({
     queryKey: ['get-me'],
     initialData: [],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const token = auth.getToken()
       const res = await ApiClient.get(`/auth/me`, {
