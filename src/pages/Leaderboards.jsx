@@ -1,24 +1,16 @@
 import { Navigate } from 'react-router-dom'
 import Auth from '../utils/auth'
 import { AiOutlineLoading } from 'react-icons/ai'
+import { useUser } from '../hooks/UseUser'
 
 const Leaderboards = () => {
   // If the user is not logged in, redirect to the login page
   if (!Auth.loggedIn()) return <Navigate to="/login" />
 
-  // Dummy user data
-  const dummyUsers = [
-    { username: 'Alice', experience: 1500 },
-    { username: 'Bob', experience: 1200 },
-    { username: 'Charlie', experience: 900 },
-    { username: 'David', experience: 800 },
-    { username: 'Eve', experience: 700 },
-  ]
+  const { data, isFetching, refetch } = useUser()
 
-  // sort the users by experience
-  const sortedUsers = [...dummyUsers].sort(
-    (a, b) => b.experience - a.experience
-  )
+  // sort the users by pointXp
+  const sortedUsers = data?.sort((a, b) => b.pointXp - a.pointXp)
 
   // style the first three rankings
   const rank = (index) => {
@@ -32,6 +24,11 @@ const Leaderboards = () => {
       default:
         return ''
     }
+  }
+
+  // Check if data is loading
+  if (isFetching) {
+    return <AiOutlineLoading className="animate-spin h-12 w-12 mx-auto" />
   }
 
   return (
@@ -69,7 +66,7 @@ const Leaderboards = () => {
               <div className="flex flex-col flex-grow overflow-hidden">
                 <h3 className="font-bold truncate">{user.username}</h3>
                 <p className="text-gray-500 dark:text-gray-400 truncate">
-                  {user.experience} XP
+                  {user.pointXp} XP
                 </p>
               </div>
             </div>
