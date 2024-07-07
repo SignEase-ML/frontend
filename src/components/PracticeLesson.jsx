@@ -57,14 +57,14 @@ const PracticeLesson = ({ data }) => {
             <tbody>
               {data.signs.map((sign) => (
                 <tr key={`id-${sign.label}`}>
-                  <td className="w-fit border-2 dark:border-gray-700 p-2 sm:p-4 text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-center scale-150 md:scale-100">
+                  <td className="w-1/2 border-2 dark:border-gray-700 p-2 sm:p-4 text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-center scale-150 md:scale-100">
                     <img
-                      src={sign.image}
+                      src={sign.imageUrl}
                       alt={sign.label}
                       className="w-20 h-20"
                     />
                   </td>
-                  <td className="w-1/2 border-2 dark:border-gray-700 p-2 sm:p-4 text-xl sm:text-2xl md:text-3xl">
+                  <td className="w-fit border-2 dark:border-gray-700 p-2 sm:p-4 text-xl sm:text-2xl md:text-3xl">
                     {sign.label}
                   </td>
                   <td className="w-1/2 border-2 dark:border-gray-700 p-2 sm:p-4 md:text-xl">
