@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux'
 // import Main component that contains all the routes
 import { MainSection } from './components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   // get darkMode state from store
@@ -28,6 +30,7 @@ function App() {
         <div className="bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-gray-100">
           {/* Router and Routes are located in Main */}
           <MainSection />
+          <ToastContainer />
         </div>
       </BrowserRouter>
     </QueryClientProvider>

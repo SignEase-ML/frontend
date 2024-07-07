@@ -39,7 +39,8 @@ const Login = () => {
         navigate('/')
       })
       .catch((error) => {
-        toast.error(error.message || 'Login failed', {
+        console.log(error)
+        toast.error(error || 'Login failed', {
           position: 'top-right',
         })
       })
