@@ -2,7 +2,6 @@ import { useState, useRef } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import logo from '../assets/Logo.svg'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
-import { FaExclamationCircle } from 'react-icons/fa'
 import { AiOutlineLoading } from 'react-icons/ai'
 import Auth from '../utils/auth' // import the Auth utility function
 import authService from '../services/auth.service'
@@ -39,7 +38,6 @@ const Login = () => {
         navigate('/')
       })
       .catch((error) => {
-        console.log(error)
         toast.error(error || 'Login failed', {
           position: 'top-right',
         })
@@ -66,7 +64,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold mb-6 text-center">Log in</h1>
         {/* Fields Container */}
         <div className="w-full flex flex-col gap-4">
-          {/* Email Field Wrapper*/}
+          {/* Email Field Wrapper */}
           <div className="flex flex-col gap-1">
             <label className="font-bold" htmlFor="email">
               Email
@@ -116,6 +114,17 @@ const Login = () => {
             'Login'
           )}
         </button>
+
+        {/* Forgot Password Link */}
+        <p className="mt-4 text-gray-500 dark:text-gray-400 text-center">
+          <Link
+            to="/forgot-password"
+            className="font-bold text-red-500 hover:text-primary-shade hover:underline"
+          >
+            Forgot Password?
+          </Link>
+        </p>
+
         {/* Sign Up Link */}
         <p className="mt-6 text-gray-500 dark:text-gray-400 text-center">
           Don't have an account?{' '}

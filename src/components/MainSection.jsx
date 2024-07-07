@@ -18,6 +18,7 @@ import Auth from '../utils/auth'
 import VideoLessonPage from '../pages/VideoPage'
 import PracticePage from '../pages/PracticePage'
 import PracticeList from '../pages/PracticeList'
+import ForgotPassword from '../pages/ForgotPassword'
 const MainSection = () => {
   const loggedIn = Auth.loggedIn()
   // returns true if locations includes /quiz
@@ -48,6 +49,7 @@ const MainSection = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/leaderboards" element={<Leaderboards />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/lessons">

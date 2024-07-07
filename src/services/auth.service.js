@@ -20,6 +20,15 @@ const authService = {
       throw error.response?.data?.message || 'Register Gagal!'
     }
   },
+
+  forgotPassword: async (payload) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/forgot-password`, payload)
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Forgot password Gagal!'
+    }
+  },
 }
 
 export default authService
