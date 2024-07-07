@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const LessonContainer = ({ lesson }) => {
+  const [backgroundGradient, setBackgroundGradient] = useState('')
+
+  // Function to generate a random background gradient
+  const getRandomGradient = () => {
+    const gradients = [
+      'bg-gradient-to-r from-red-600 to-red-500',
+      'bg-gradient-to-r from-green-600 to-green-500',
+      'bg-gradient-to-r from-blue-600 to-blue-500',
+      'bg-gradient-to-r from-yellow-600 to-yellow-500',
+      'bg-gradient-to-r from-purple-600 to-purple-500',
+      'bg-gradient-to-r from-pink-600 to-pink-500',
+      'bg-gradient-to-r from-indigo-600 to-indigo-500',
+    ]
+    return gradients[Math.floor(Math.random() * gradients.length)]
+  }
+
+  useEffect(() => {
+    const randomGradient = getRandomGradient()
+    console.log('Random background gradient:', randomGradient)
+    setBackgroundGradient(randomGradient)
+  }, [])
+
   return (
-    <section className="text-white banner-container-style bg-gradient-to-r from-orange-600 to-orange-500">
+    <section
+      className={`text-white banner-container-style ${backgroundGradient}`}
+    >
       <div className="relative p-4 z-10">
         {/* Header */}
         <div className="mb-4">

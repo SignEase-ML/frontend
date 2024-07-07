@@ -1,16 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const QuizLesson = ({ data }) => {
   const [displayTable, setDisplayTable] = useState(false)
+  const [backgroundColor, setBackgroundColor] = useState('')
+
+  // Function to generate a random background color class
+  const getRandomBackgroundColor = () => {
+    const colors = [
+      'bg-red-500',
+      'bg-green-500',
+      'bg-blue-500',
+      'bg-yellow-500',
+      'bg-purple-500',
+      'bg-pink-500',
+      'bg-indigo-500',
+      'bg-orange-500',
+    ]
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
+
+  useEffect(() => {
+    setBackgroundColor(getRandomBackgroundColor())
+  }, [])
 
   return (
     // Asl Lesson Container
-    <div className={`banner-container-style ${data.backgroundColor}`}>
+    <div className={`banner-container-style ${backgroundColor} my-3`}>
       <div className="relative p-4 z-10">
         {/* Header */}
         <div className="text-gray-100">
-          {/* Lesson Number and Pages*/}
+          {/* Lesson Number and Pages */}
           <p className="font-bold opacity-80 uppercase tracking-wider text-shadow">
             Quiz {data.lesson.number} - {data.lesson.title}
           </p>
@@ -59,7 +79,7 @@ const QuizLesson = ({ data }) => {
                 <tr key={`id-${sign.label}`}>
                   <td className="w-fit border-2 dark:border-gray-700 p-2 sm:p-4 text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-center scale-150 md:scale-100">
                     <img
-                      src={sign.image}
+                      src={sign.imageUrl}
                       alt={sign.label}
                       className="w-20 h-20"
                     />

@@ -1,12 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const PracticeLesson = ({ data }) => {
   const [displayTable, setDisplayTable] = useState(false)
+  const [backgroundColor, setBackgroundColor] = useState('')
+
+  // Function to generate a random color
+  const getRandomColor = () => {
+    const colors = [
+      'bg-red-500',
+      'bg-green-500',
+      'bg-blue-500',
+      'bg-yellow-500',
+      'bg-purple-500',
+      'bg-pink-500',
+      'bg-indigo-500',
+    ]
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
+
+  useEffect(() => {
+    const randomColor = getRandomColor()
+    setBackgroundColor(randomColor)
+  }, [])
 
   return (
-    // ASL Practice Lesson Container
-    <div className={`banner-container-style ${data.backgroundColor}`}>
+    <div className={`banner-container-style ${backgroundColor} my-3`}>
       <div className="relative p-4 z-10">
         {/* Header */}
         <div className="text-gray-100">
