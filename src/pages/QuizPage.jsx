@@ -38,6 +38,8 @@ const QuizPage = () => {
     refetch: refetchQuestionsQuiz,
   } = useCurrentQuiz(slug)
 
+  console.log(progress)
+
   useEffect(() => {
     if (questionsQuiz && questionsQuiz.length > 0) {
       setQuestion(questionsQuiz[0]) // Assuming first question from the API response
@@ -66,18 +68,16 @@ const QuizPage = () => {
       // Handle success response
       correctControls.play()
       setQuestionState('correct')
-      setProgress(((progress + 1) / totalQuestions) * 100)
     } catch (err) {
       // Handle error response
       incorrectControls.play()
       setQuestionState('incorrect')
-      setProgress(((progress + 1) / totalQuestions) * 100)
     }
   }
 
   const cycleNextQuestion = async () => {
-    const nextIndex =
-      questionsQuiz.findIndex((q) => q.question === question.question) + 1
+    const nextIndex = questionsQuiz.indexOf(question) + 1
+    setProgress((nextIndex / totalQuestions) * 100)
     if (nextIndex < questionsQuiz.length) {
       setQuestion(questionsQuiz[nextIndex])
       setSelectedOption(null)
